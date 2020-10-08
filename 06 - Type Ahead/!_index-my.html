@@ -1,22 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Type Ahead 👀</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+      const cities = [];
 
-  <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
-    <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
-    </ul>
-  </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+      fetch(endpoint)
+        .then((blob) => blob.json()) // convert recieved data to json
+        .then((data) => cities.push(...data)); // using ... to save all this data to the array as individual inputs (if we write .push(data) we will get an array inside in array, but with ...datq we can get an array with actual entries)
 
-</script>
-</body>
+      function findMatches(wordToMatch, cities) {
+        return cities.filter((place) => {
+          const regex = new RegExp(wordToMatch, "gi"); // create a regular expression from variable
+          return place.city.match(regex) || place.state.match(regex);
+        });
+      }
+
+      function displayMatches() {
+        // this.value contains the value of an element to which this function will be applied
+        const matchArray = findMatches(this.value, cities);
+        const hmtl = matchArray
+          .map((place) => {
+            const regex = new RegExp(this.value, "gi");
+
+            // changing the style of city name and state name to make their parts corresponding to user's input highlighted
+            const cityName = place.city.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            const stateName = place.state.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+
+            return `<li>
+                      <span class="name">${cityName}, ${stateName}</span>
+                      <span class="population">${place.population}</span>
+                    </li>`;
+          })
+          .join(""); // using .join("") to convert an array which .map outputs to a single string so it can be inserted in the html code properly
+
+        suggestions.innerHTML = hmtl; // swap the current html code inside .suggestions to desired html
+        // console.log(matchArray);
+      }
+
+      const searchInput = document.querySelector(".search");
+      const suggestions = document.querySelector(".suggestions");
+
+      searchInput.addEventListener("change", displayMatches);
+      searchInput.addEventListener("keyup", displayMatches);
+    </script>
+  </body>
 </html>
