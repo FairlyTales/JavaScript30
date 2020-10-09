@@ -1,46 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Console Tricks!</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console Tricks!</title>
+  </head>
+  <body>
+    <p onClick="makeGreen()">×BREAK×DOWN×</p>
 
-  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+    <script>
+      const dogs = [
+        { name: "Snickers", age: 2 },
+        { name: "hugo", age: 8 },
+      ];
 
-  <script>
-    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+      function makeGreen() {
+        const p = document.querySelector("p");
+        p.style.color = "#BADA55";
+        p.style.fontSize = "50px";
+      }
 
-    function makeGreen() {
-      const p = document.querySelector('p');
-      p.style.color = '#BADA55';
-      p.style.fontSize = '50px';
-    }
+      // Regular
+      console.log("aldkfj;laks");
 
-    // Regular
+      // Interpolated
+      console.log("Hello I am a %s string!", "+pp");
+      // console.log(`Hello I am a ${+pp} string!`);
 
-    // Interpolated
+      // Styled
+      console.log(
+        "%c I am some great text",
+        "font-size: 13px; background:green; text-shadow: 10px 10px 0 red"
+      );
 
-    // Styled
+      // warning!
+      console.warn("it is a warning");
 
-    // warning!
+      // Error :|
+      console.error("it is an error");
 
-    // Error :|
+      // Info
+      console.info("info"); // didn't do anything?
 
-    // Info
+      // Testing
+      const a = false;
+      const b = true;
+      console.assert(a, "false"); // Assertion failed
+      console.assert(b, "true"); // Assertion not failed
 
-    // Testing
+      // clearing, also can use ctrl+l
+      console.clear();
 
-    // clearing
+      // Viewing DOM Elements
+      // console.dir(DOM_element);
 
-    // Viewing DOM Elements
+      // Grouping together
+      dogs.forEach((dog) => {
+        console.groupCollapsed(`${dog.name}`);
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years old`);
+        console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+        console.groupEnd(`${dog.name}`);
+      });
 
-    // Grouping together
+      // counting
+      console.count("item");
+      console.count("item");
+      console.count("item");
 
-    // counting
-
-    // timing
-
-  </script>
-</body>
+      // timing
+      console.time("time test");
+      console.count("item");
+      console.count("item");
+      console.count("item");
+      console.count("item");
+      console.count("item");
+      console.count("item");
+      console.count("item");
+      console.count("item");
+      console.count("item");
+      console.timeEnd("time test");
+    </script>
+  </body>
 </html>
