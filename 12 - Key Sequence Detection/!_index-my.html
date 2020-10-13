@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Key Detection</title>
-  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
-</head>
-<body>
-<script>
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Key Detection</title>
+    <script
+      type="text/javascript"
+      src="https://www.cornify.com/js/cornify.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      let entered = [];
+      const password = "aaa";
+      function handleKeyPress(evt) {
+        entered.push(evt.key);
+        // arr.splice(param1, param2, param3...)
+        // param1 - from which index to start
+        // param2 - how many items to remove
+        // param3, 4... -  items to add in the place of removed items
+
+        // here we remove the 4th item from the start of an array if the array.lenght is > than password.lenght
+        entered.splice(-password.length - 1, entered.length - password.length);
+
+        console.log(entered);
+        console.log(entered.join(""));
+
+        if (entered.join("").includes(password)) {
+          cornify_add();
+          console.log("GG");
+        }
+      }
+
+      window.addEventListener("keyup", handleKeyPress);
+    </script>
+  </body>
 </html>
