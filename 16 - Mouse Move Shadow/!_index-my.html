@@ -1,40 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Mouse Shadow</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Shadow</title>
+  </head>
+  <body>
+    <div class="hero">
+      <h1 contenteditable>🔥WOAH!</h1>
+    </div>
 
-  <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
-  </div>
+    <style>
+      html {
+        color: black;
+        font-family: sans-serif;
+      }
 
-  <style>
-  html {
-    color: black;
-    font-family: sans-serif;
-  }
+      body {
+        margin: 0;
+      }
 
-  body {
-    margin: 0;
-  }
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+      }
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
+      h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+      }
+    </style>
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
-  </style>
+    <script>
+      const hero = document.querySelector(".hero");
+      const text = hero.querySelector("h1");
 
-<script>
-</script>
-</body>
+      function shadow(evt) {
+        const { offsetWidth: width, offsetHeight: height } = hero;
+        let { offsetX: x, offsetY: y } = evt;
+
+        // this is a div with a class .hero
+        // evt.target can be this div or the h1 inside of it. If it's an h1 offsetX and offsetY
+        // start to give possition of a cursor relative to the left top corner of the h1, not the
+        // position relative to the top left of the div which we need. Thats why we do recalculation
+        // for x and y if the cursor is on top of the h1
+        if (this !== evt.target) {
+          x += evt.target.offsetLeft;
+          y += evt.target.offsetTop;
+        }
+
+        const xWalk = Math.round((x / width) * 200 - 100);
+        const yWalk = Math.round((y / height) * 200 - 100);
+
+        text.style.textShadow = `${xWalk}px ${yWalk}px 0 rgba(255,0,255,0.6),
+        ${xWalk * -1}px ${yWalk}px 0 rgba(255,0,0,0.6),
+        ${xWalk}px ${yWalk * -1}px 0 rgba(0,0,255,0.6),
+        ${xWalk * -1}px ${yWalk * -1}px 0 rgba(0,255,0,0.6)`;
+        console.log(xWalk, yWalk);
+      }
+
+      hero.addEventListener("mousemove", shadow);
+    </script>
+  </body>
 </html>
