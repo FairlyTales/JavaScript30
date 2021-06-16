@@ -2,4 +2,6 @@
 
 # JavaScript30
 
-JavaScript 30 Day Challenge [https://JavaScript30.com](https://JavaScript30.com)
+JavaScript 30 Day Challenge
+
+[https://JavaScript30.com](https://JavaScript30.com)
